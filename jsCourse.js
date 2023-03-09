@@ -435,4 +435,264 @@ Enter Name:<input type="text" name="name"/>
 <input type="button" onclick="printvalue()" value="print name"/>  
 </form>  */
 
+//--------------------------------------------OOP--------------------------------------
+//classes
+class login{
+    constructor(name,age)
+    {
+        this.name=name;
+        this.age=age;
+    }
+    signin()
+    {
+        console.log('hi',this.name);
+    }
+}
+let object =new login('sowndarya',22);
+
+//-------------------------------------Error handling-------------------------------------
+
+ try{
+    let num='r'; //not a number
+    if(isNaN(num))
+    throw 'please enter valid number'; //throws to catch block
+    console.log(num*2);
+}
+catch(err){
+  console.log(err);
+}
+finally{
+    console.log('finally block');
+} 
+
+//----------------------------Synchronous vs asynchronous JS------------------------------
+/*
+Synchrounous JS :
+* JS is basically synchrounous in nature.
+* in synchrounous JS, one step starts executing only after the previous step is completed.
+* Synchronous is blocking.
+
+Asynchronous JS:
+* in asynchronous JS, steps execute simultaneously.
+* Asynchrounous is not blocking.
+ */
+console.log('step 1 sync');
+console.log('step2 sync');
+console.log('step 3sync');
+setTimeout(()=>console.log('step 1 async'),4000); //takes minimum 4 sec foe execution
+setTimeout(()=>console.log('step 2 async'),2000);
+//setInterval(()=>console.log('hi'),2000); //prints every 2 sec without stopping
+/*Execution order:
+* - global scope variables or func execute first in call stack.
+  - timeout func are handovered to browsers.
+  - after the time interval for the particular timeout func,browser adds it to queue.
+  - after call stack gets empty, all the func inside queue executes based on FIFO order.
+*/
+
+//-------------------------------------------PROMISE----------------------------------------
+/* 
+* promise is an object representing the eventual completion or failure of the asynchronous operation.
+* promise is in any of the below states:
+                   i) pending
+                  ii) fullfilled -->resolve
+                 iii) rejected --> reject
+* if fullfilled , it executes the function in then block.
+* if rejected , it executes the function in catch block.
+*/
+//promise defintion
+let prom = new Promise((resolve,reject)=>{    
+    let success=true;
+    if(success)
+    resolve('hi you won')
+    else 
+    reject('you lost')
+})
+
+//using promise
+//prom.then(()=>console.log('hurray!! you won'))
+//.catch(()=>console.log('youlost!!'));
+
+
+//promise definition using function
+function promi()
+{
+    return new Promise((resolve,reject)=>{
+        let success=false;
+    if(success)
+    setTimeout(resolve,1000,500); //(function,delay,func parameter)
+    else 
+    setTimeout(reject,2000,0);  //asynchronous operations
+    })
+}
+promi().then((amt)=>console.log(`this is function promise sucess and u won rs.${amt}`))
+.catch((rps)=>console.log(`you won rs.${rps}`));
+
+//promise methods:
+// 1. Promise.all() --> prints the array only if all are success.  Syntax -- > Promise.all([obj1,obj2,obj3]);
+//2. Promise.any() --> prints the array only if all are failure.
+
+//---------------------------------------------Async and Await---------------------------------------
+//Async and await are the one of the method to call promise call back funtions.
+//alternative for .then and .catch
+//await should be given inside async function
+//used to avoid the need to explicitly configure promise chains.
+
+let asyncpro = new Promise((resolve,reject)=>{    
+    let success=false; //if we give false it will show error.so to handle reject we need to use try catch
+    if(success)
+    setTimeout(resolve,2000,'hi you won')
+    else 
+    reject('you lost')
+})
+
+async function asyncstatus()
+{
+    try{
+         console.log('async and await');
+        res =  await asyncpro
+        console.log(res);
+        }
+    catch(err)
+    {
+        console.log(err);
+    }
+        
+}
+
+asyncstatus()   //async function only executes after the function call
+
+//-----------------------------------------JSON------------------------------------------
+/*
+ * JSON- javascript object notation
+* keys should be given inside double quotes
+ */
+
+let json1={
+    "name":"sowndarya",
+    "details":{
+        "age":21,
+        "addrs":"cbe"
+    }
+}
+console.log(json1.name);
+console.log(json1);
+console.log(json1.details);
+
+//array of json objects:
+
+let json2=[
+    {
+        "name":"sowndarya",
+        "details":{
+            "age":21,
+            "addrs":"cbe"
+        }
+    },
+        {
+            "name":"sneha",
+            "details":{
+                "age":21,
+                "addrs":"cbe"
+            }
+        },
+        {
+            "name":"vennila",
+            "details":{
+                "age":21,
+                "addrs":"cbe"
+            }
+        }
+];
+console.log(json2);
+console.log(json2[1]);
+console.log(json2[1].name);
+
+//JSON.parse() --> converts string to json doc
+let json3=`[
+    {
+        "name":"sowndarya",
+        "details":{
+            "age":21,
+            "addrs":"cbe"
+        }
+    },
+        {
+            "name":"sneha",
+            "details":{
+                "age":21,
+                "addrs":"cbe"
+            }
+        },
+        {
+            "name":"vennila",
+            "details":{
+                "age":21,
+                "addrs":"cbe"
+            }
+        }
+]`;
+let json4=JSON.parse(json3);
+console.log(json4);
+
+//JSON.stringify --> converts json to string
+
+let json5={
+    "name":"sowndarya",
+    "details":{
+        "age":21,
+        "addrs":"cbe"
+    }
+}
+let jsonstr=JSON.stringify(json5);
+console.log(jsonstr);
+
+
+//---------------------------------------------API-------------------------------------------
+/**
+ * API - application programming interface
+ * API is a software that connects apllications to fetch and access the required information.
+ * Web APIs provides services such as web notification and storage --> accessed through HTTP protocol.
+ 
+ * API PROTOCOLS:
+ *               REST
+ *               JSON-RPC(remote procedural call protocol) and XML-RPC - one result is expected from multiple parameters.
+ *               SOAP (simple object access protocol) 
+ 
+ * Example of API :
+ * searching for information on the intenet using app
+ * Ordering foood(kitchen - system , your table - user end , waiter - api)
+ 
+ * API In daily life :
+ * weather monitoring
+ * for logging in
+ * payments
+ * Bookings
+ */
+
+//----------------------------------------------API FETCH-------------------------------------------
+//API fetch starts the process of fetching a resource from a server.
+//allows the web browser to make HTTP request to web browsers.
+
+//GET fetchAPI:
+
+fetch('https://reqres.in/api/users')
+.then((res)=>res.json())  //first step : convert the fetched doc into json doc
+.then((msg)=>console.log(msg.data))  //printing the json doc
+.catch((err)=>console.log(err)); //if resolved,executes the then. if rejected executes the catch. 
+
+//POST fetchAPI --> creating own api
+
+fetch('https://jsonplaceholder.typicode.com/todos',{
+     method:'POST',
+     headers:{'content-type':'application/json'},
+     body:JSON.stringify({
+        name:"sowndarya",
+        title:"engineer",
+        job:"SDE"
+     })
+})
+.then(res=>res.json())
+.then(msg=>console.log(msg)); //fake response not really inserted
+
+
 
